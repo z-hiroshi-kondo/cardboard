@@ -264,11 +264,8 @@ bool GyroscopeBiasEstimator::UpdateGyroscopeBias(
     return false;
   }
 
-  float update_weight = std::max(
-      0.0f, 1.0f - gyroscope_sample_norm2 / kGyroscopeForBiasThreshold);
-  update_weight *= update_weight;
-  gyroscope_bias_lowpass_filter_.AddWeightedSample(
-      gyroscope_lowpass_filter_.GetFilteredData(), timestamp_ns, update_weight);
+  gyroscope_bias_lowpass_filter_.AddSample(
+      gyroscope_lowpass_filter_.GetFilteredData(), timestamp_ns);
 
   // This counter is only partially valid as the low pass filter drops large
   // samples.
